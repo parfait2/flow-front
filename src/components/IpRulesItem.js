@@ -4,7 +4,7 @@ import "../css/IpRules.css";
 const IpRulesItem = ({ rule, onDelete }) => {
   return (
     <li className="ip-rules-item">
-      <p>{rule.address}</p>
+      <p>{rule.ipAddress}</p>
       <p>{rule.description}</p>
       <p>{rule.startTime}</p>
       <p>{rule.endTime}</p>

@@ -9,6 +9,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const endPage = Math.min(startPage + groupSize, totalPages);
 
   const pageNumbers = [];
+  
   for (let i = startPage; i < endPage; i++) {
     pageNumbers.push(i);
   }
@@ -29,10 +30,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div className="pagination">
-      <button
-        onClick={handlePreviousGroup}
-        disabled={currentGroup === 0}
-      >
+      <button onClick={handlePreviousGroup} disabled={currentGroup === 0}>
         {"<<"}
       </button>
       <button
@@ -56,10 +54,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       >
         Next
       </button>
-      <button
-        onClick={handleNextGroup}
-        disabled={endPage >= totalPages}
-      >
+      <button onClick={handleNextGroup} disabled={endPage >= totalPages}>
         {">>"}
       </button>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { fetchIp } from "../api/Api";
 import "../css/IpRules.css";
 
@@ -8,24 +8,18 @@ const IpRulesForm = ({ onSave, onCancel }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  useEffect(() => {
+  const handleFetchIp = () => {
     fetchIp()
       .then((response) => {
-        setIpAddress(response.data);
+        setIpAddress(response.data.ipAddress);
       })
       .catch((error) => {
-        console.error("Error fetching IP address : ", error);
+        console.error("Error fetching IP address:", error);
       });
-  }, []);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({
-      ipAddress,
-      description,
-      startTime,
-      endTime,
-    });
     onSave({
       ipAddress,
       description,
@@ -46,7 +40,9 @@ const IpRulesForm = ({ onSave, onCancel }) => {
             value={ipAddress}
             onChange={(e) => setIpAddress(e.target.value)}
           />
-          <button className="get-ip-btn">현재 IP 불러오기</button>
+          <button type="button" className="get-ip-btn" onClick={handleFetchIp}>
+            현재 IP 불러오기
+          </button>
         </div>
         <div className="form-group">
           <label>설명</label>
