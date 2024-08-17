@@ -1,0 +1,102 @@
+.admin-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.ip-rules-form,
+.ip-rules-list {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="datetime-local"] {
+  width: calc(100% - 140px);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.get-ip-btn {
+  padding: 8px 16px;
+  margin-left: 10px;
+}
+
+.form-buttons {
+  text-align: right;
+}
+
+.form-buttons .save-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.form-buttons .cancel-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+}
+
+.search-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-group input[type="text"],
+.search-group input[type="datetime-local"] {
+  margin-right: 10px;
+  padding: 8px;
+}
+
+.search-btn {
+  padding: 8px 16px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.ip-rules-item {
+  display: grid;
+  grid-template-columns: 15% 20% 20% 25%; /* 각 열의 비율을 설정 */
+  align-items: center;
+  gap: 1rem;
+  padding: 0.01rem 0;
+}
+
+.ip-rules-item p {
+  /* flex-basis: 20%; */
+  text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 0;
+
+  /* 아래 두 속성으로 버튼을 마지막 열에 정렬 */
+  grid-column: 5; /* 버튼을 한 열로 설정 */
+  justify-self: end; /* 버튼을 오른쪽에 배치 */
+}
