@@ -1,15 +1,17 @@
 import React from "react";
 import "../css/IpRules.css";
 
-const IpRulesItem = () => {
+const IpRulesItem = ({ rule, onDelete }) => {
   return (
-      <li>
-        <p>222.108.193.167</p>
-        <p>Global Admin 사용자 IP</p>
-        <p>2024/06/01 14:00</p>
-        <p>2024/06/05 18:00</p>
-        <button>Delete</button>
-      </li>
+    <li className="ip-rules-item">
+      <p>{rule.address}</p>
+      <p>{rule.description}</p>
+      <p>{rule.startTime}</p>
+      <p>{rule.endTime}</p>
+      <button className="delete-btn" onClick={onDelete}>
+        Delete
+      </button>
+    </li>
   );
 };
 
