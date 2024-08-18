@@ -1,4 +1,5 @@
 import React from "react";
+import { convertArrayToUTCDate } from "../utils/time";
 import "../css/IpRules.css";
 
 const IpRulesItem = ({ rule, onDelete }) => {
@@ -6,8 +7,8 @@ const IpRulesItem = ({ rule, onDelete }) => {
     <li className="ip-rules-item">
       <p>{rule.ipAddress}</p>
       <p>{rule.description}</p>
-      <p>{rule.startTime}</p>
-      <p>{rule.endTime}</p>
+      <p>{convertArrayToUTCDate(rule.startTime)}</p>
+      <p>{convertArrayToUTCDate(rule.endTime)}</p>
       <button className="delete-btn" onClick={onDelete}>
         Delete
       </button>

@@ -23,7 +23,9 @@ const AdminPage = () => {
     const fetchData = async () => {
       try {
         let response;
+
         if (isSearching) {
+          // 검색 중일 때
           if (searchParams.startTime && searchParams.endTime) {
             response = await fetchRuleByPeriod({
               ...searchParams,
@@ -34,17 +36,19 @@ const AdminPage = () => {
             response = await fetchRule(searchParams, currentPage, pageSize);
           }
         } else {
+          // IP 규칙 전체 조회
           response = await fetchAllRules(currentPage, pageSize);
         }
         setRules(response.data.content);
         setTotalPages(response.data.totalPages);
       } catch (error) {
-        console.error("Error fetching rules:", error);
+        console.error("Error fetching rules :", error);
       }
     };
     fetchData();
   }, [currentPage, pageSize, isSearching, searchParams]);
 
+  // 페이지 변경 시
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -52,21 +56,40 @@ const AdminPage = () => {
   const handleSave = (newRule) => {
     createRule(newRule)
       .then((response) => {
-        setRules([response.data, ...rules]);
+        // string 타입을 Date 객체로 변환합니다.
+        const startDate = new Date(newRule.startTime);
+        const endDate = new Date(newRule.endTime);
+
+
+
+        const formattedRule = {
+          // 응답에서 받아온 id 사용
+          id: response.data.id,
+
+          // 새로 입력된 규칙 데이터
+          ...newRule,
+
+          // ISO 형식으로 변환합니다.
+          startTime: startDate.toISOString().replace("T", " ").substring(0, 19),
+          endTime: endDate.toISOString().replace("T", " ").substring(0, 19),
+        };
+
+        setRules([formattedRule, ...rules]); // 새로운 규칙을 규칙 목록에 추가합니다.
         setShowModal(false);
       })
       .catch((error) => {
-        console.error("Error saving rule:", error);
+        console.error("Error saving rule :", error);
       });
   };
 
   const handleDelete = (id) => {
     deleteRule(id)
       .then(() => {
+        // 삭제된 규칙을 규칙 목록에서 제외합니다.
         setRules(rules.filter((rule) => rule.id !== id));
       })
       .catch((error) => {
-        console.error("Error deleting rule:", error);
+        console.error("Error deleting rule :", error);
       });
   };
 
