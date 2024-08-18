@@ -18,6 +18,7 @@ const AdminPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
+  const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,10 +40,22 @@ const AdminPage = () => {
           // IP 규칙 전체 조회
           response = await fetchAllRules(currentPage, pageSize);
         }
+
+        // 검색 결과 유무에 따른 처리
+        if (response.data.content.length === 0) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+
         setRules(response.data.content);
         setTotalPages(response.data.totalPages);
       } catch (error) {
-        console.error("Error fetching rules :", error);
+        if (error.response && error.response.status === 404) {
+          setNoResults(true); // 404 에러 시 검색 결과 없음으로 처리
+        } else {
+          // console.error("Error fetching rules :", error);
+        }
       }
     };
     fetchData();
@@ -60,8 +73,6 @@ const AdminPage = () => {
         const startDate = new Date(newRule.startTime);
         const endDate = new Date(newRule.endTime);
 
-
-
         const formattedRule = {
           // 응답에서 받아온 id 사용
           id: response.data.id,
@@ -78,7 +89,7 @@ const AdminPage = () => {
         setShowModal(false);
       })
       .catch((error) => {
-        console.error("Error saving rule :", error);
+        // console.error("Error saving rule :", error);
       });
   };
 
@@ -89,14 +100,18 @@ const AdminPage = () => {
         setRules(rules.filter((rule) => rule.id !== id));
       })
       .catch((error) => {
-        console.error("Error deleting rule :", error);
+        // console.error("Error deleting rule :", error);
       });
   };
 
-  const handleSearch = (params) => {
+  const handleSearch = (params, type) => {
     setCurrentPage(0);
-    setSearchParams(params);
-    setIsSearching(true);
+    if (type === "reset") {
+      setIsSearching(false); // 초기화 시 전체 조회
+    } else {
+      setSearchParams(params);
+      setIsSearching(true);
+    }
   };
 
   const handleCancel = () => {
@@ -115,6 +130,7 @@ const AdminPage = () => {
         rules={rules}
         onDelete={handleDelete}
         onSearch={handleSearch}
+        noResults={noResults}
       />
       <Pagination
         currentPage={currentPage}

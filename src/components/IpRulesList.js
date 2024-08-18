@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import IpRulesItem from "./IpRulesItem";
 import "../css/IpRules.css";
 
-const IpRulesList = ({ rules, onDelete, onSearch }) => {
+const IpRulesList = ({ rules, onDelete, onSearch, noResults }) => {
   const [searchContent, setSearchContent] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -38,6 +38,7 @@ const IpRulesList = ({ rules, onDelete, onSearch }) => {
     setStartTime("");
     setEndTime("");
     setErrorMessage("");
+    onSearch({}, "reset"); // 초기화 시 전체 조회를 다시 수행
   };
 
   return (
@@ -71,23 +72,19 @@ const IpRulesList = ({ rules, onDelete, onSearch }) => {
           </button>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div className="ip-rules-list">
-          <li className="ip-rules-item">
-            <p>IP 주소</p>
-            <p>내용</p>
-            <p>사용 시작 시간</p>
-            <p>사용 끝 시간</p>
-          </li>
-        </div>
-        <ul className="ip-rules-list">
-          {rules.map((rule) => (
-            <IpRulesItem
-              key={rule.id} // 고유한 key 값으로 id를 사용합니다.
-              rule={rule} // 각 규칙의 데이터를 전달합니다.
-              onDelete={() => onDelete(rule.id)}
-            />
-          ))}
-        </ul>
+        {noResults ? (
+          <p className="no-results-message">검색 결과가 없습니다.</p>
+        ) : (
+          <ul className="ip-rules-list">
+            {rules.map((rule) => (
+              <IpRulesItem
+                key={rule.id} // 고유한 key 값으로 id를 사용합니다.
+                rule={rule} // 각 규칙의 데이터를 전달합니다.
+                onDelete={() => onDelete(rule.id)}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
